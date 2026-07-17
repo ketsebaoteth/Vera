@@ -1,11 +1,9 @@
-#include "core/app/types.h"  // To get your platform macros
-
 #if defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
-namespace vera::internal {
+namespace vera::win32::internal {
 
 void pollPlatformEvents() {
     MSG msg;
