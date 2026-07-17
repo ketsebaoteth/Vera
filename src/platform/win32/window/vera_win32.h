@@ -60,7 +60,7 @@ class VeraWin32Window : public VeraWindow {
     void setCursorMode(VeraCursorMode mode) override;
     void setCursorShape(VeraCursorShape shape) override;
 
-    core::monitor::VeraMonitorInfo getCurrentMonitor() const override;
+    VeraMonitorInfo getCurrentMonitor() const override;
     void setDestroyedNotifier(std::function<void(VeraWindowHandle)> notifier);
 
     virtual void setJoystickButtonCallback(

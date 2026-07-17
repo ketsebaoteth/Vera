@@ -26,9 +26,9 @@ void Win32Backend::pollEvents() {
         DispatchMessageW(&msg);
     };
 }
-void Win32Backend::waitEvents() { vera::internal::waitPlatformEvents(); }
+void Win32Backend::waitEvents() { waitPlatformEvents(); }
 void Win32Backend::waitEventsTimeout(double timeoutSeconds) {
-    vera::internal::waitPlatformEventsTimeout(timeoutSeconds);
+    waitPlatformEventsTimeout(timeoutSeconds);
 }
 
 void Win32Backend::setQuitRequestCallback(std::function<bool()> callback) {
@@ -51,7 +51,7 @@ static VeraMonitorInfo toVeraMonitor(HMONITOR hMonitor, bool isPrimary) {
     GetDpiForMonitor(hMonitor, MDT_EFFECTIVE_DPI, &dpiX, &dpiY);
 
     VeraMonitorInfo monitor;
-    monitor.name = vera::platform::win32::wide_to_utf8(info.szDevice);
+    monitor.name = wide_to_utf8(info.szDevice);
     monitor.x = info.rcMonitor.left;
     monitor.y = info.rcMonitor.top;
     monitor.workAreaX = info.rcWork.left;
@@ -111,7 +111,7 @@ VeraMonitorInfo Win32Backend::getMonitorAt(int32_t x, int32_t y) const {
 std::vector<VeraDisplayModeInfo> Win32Backend::getSupportedDisplayModes(
     const VeraMonitorInfo& monitor) const {
     std::vector<VeraDisplayModeInfo> out;
-    std::wstring deviceName = vera::platform::win32::utf8_to_wide(monitor.name);
+    std::wstring deviceName = utf8_to_wide(monitor.name);
 
     DEVMODEW devMode{};
     devMode.dmSize = sizeof(devMode);
@@ -134,7 +134,7 @@ std::string Win32Backend::getClipboardText() const {
     std::string result;
     if (HANDLE data = GetClipboardData(CF_UNICODETEXT)) {
         if (auto* wtext = static_cast<wchar_t*>(GlobalLock(data))) {
-            result = vera::platform::win32::wide_to_utf8(wtext);
+            result = wide_to_utf8(wtext);
             GlobalUnlock(data);
         }
     }
@@ -143,7 +143,7 @@ std::string Win32Backend::getClipboardText() const {
 }
 
 void Win32Backend::setClipboardText(const std::string& text) {
-    std::wstring wide = vera::platform::win32::utf8_to_wide(text);
+    std::wstring wide = utf8_to_wide(text);
     if (!OpenClipboard(nullptr)) return;
     EmptyClipboard();
 

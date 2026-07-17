@@ -823,9 +823,9 @@ void VeraWin32Window::setCursorShape(VeraCursorShape shape) {
     }
 }
 
-vera::core::monitor::VeraMonitorInfo VeraWin32Window::getCurrentMonitor()
+VeraMonitorInfo VeraWin32Window::getCurrentMonitor()
     const {
-    vera::core::monitor::VeraMonitorInfo info{};
+    VeraMonitorInfo info{};
     if (!m_hwnd) {
         return info;
     }
