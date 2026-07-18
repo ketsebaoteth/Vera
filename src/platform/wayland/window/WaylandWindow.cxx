@@ -74,7 +74,6 @@ static void xdgSurfaceHandleConfigure(void* data, xdg_surface* xdgSurface,
             window->setFallbackBuffer(fallback.wlBuffer);
         }
 
-        wl_surface_commit(window->surface());
     } else {
         wl_surface_commit(window->surface());
 
