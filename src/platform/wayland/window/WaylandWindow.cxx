@@ -7,6 +7,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <unordered_set>
 
 #include "platform/wayland/cursor/WaylandCursor.hxx"
 #include "platform/wayland/desktop/WaylandDecoration.hxx"
@@ -58,26 +59,47 @@ static WaylandBuffer createFallbackBuffer(wl_shm* shm, int width, int height) {
     return buffer;
 }
 
+// INFO: Left the comments to understand it later
+// Internal tracking set to identify surfaces bound to a GPU API (Vulkan/EGL)
+// This requires zero header file changes and safely isolates the race
+// condition.
+static std::unordered_set<wl_surface*> gGraphicsTaintedSurfaces;
+
 static void xdgSurfaceHandleConfigure(void* data, xdg_surface* xdgSurface,
                                       uint32_t serial) {
+    // INFO: Left the comments
     auto* window = static_cast<WaylandWindow*>(data);
+
+    // Always acknowledge the configuration transaction immediately
     xdg_surface_ack_configure(xdgSurface, serial);
 
-    if (!window->hasActiveGraphicsBuffer()) {
+    // Check if this window has bound a graphics context or has had its native
+    // handle requested by a GPU subsystem (like Vulkan WSI)
+    bool isGpuSurface = window->hasGraphicsContext() ||
+                        (gGraphicsTaintedSurfaces.find(window->surface()) !=
+                         gGraphicsTaintedSurfaces.end());
+
+    if (isGpuSurface) {
+        // GPU Mode: Never attach SHM fallback buffers. A bare commit is 100%
+        // valid and safely avoids explicit sync timeline errors (Error 4).
+        if (window->hasActiveGraphicsBuffer()) {
+            window->triggerResizeCallback();
+        } else {
+            wl_surface_commit(window->surface());
+        }
+    } else {
+        // Pure CPU/Software Path: Explicit sync is not engaged on this surface,
+        // making it completely safe to attach and commit an SHM fallback
+        // buffer.
         WaylandBuffer fallback = createFallbackBuffer(
             window->context().shm, window->width(), window->height());
-
         if (fallback.wlBuffer) {
             wl_surface_attach(window->surface(), fallback.wlBuffer, 0, 0);
             wl_surface_damage(window->surface(), 0, 0, window->width(),
                               window->height());
             window->setFallbackBuffer(fallback.wlBuffer);
+            wl_surface_commit(window->surface());
         }
-
-    } else {
-        wl_surface_commit(window->surface());
-
-        window->triggerResizeCallback();
     }
 }
 
@@ -106,7 +128,11 @@ static const xdg_toplevel_listener KXDG_TOP_LEVEL_LISTENER = {
 
 WaylandWindow::WaylandWindow(WaylandContext& ctx, VeraWindowHandle handle,
                              const VeraWindowInfo& info)
-    : m_ctx(ctx), m_handle(handle) {
+    : m_ctx(ctx),
+      m_handle(handle),
+      m_isResizing(false),
+      m_pendingDeletion(false),
+      m_hasGraphicsContext(false) {
     m_width = info.width;
     m_height = info.height;
     initSurface(info);
@@ -166,6 +192,7 @@ void WaylandWindow::destroySurface() {
     }
 
     if (m_surface) {
+        gGraphicsTaintedSurfaces.erase(m_surface);
         m_ctx.windowsBySurface.erase(m_surface);
     }
 
@@ -196,6 +223,13 @@ VeraNativeHandle WaylandWindow::getNativeHandle() const {
     VeraNativeHandle handle{};
     handle.display = m_ctx.display;
     handle.waylandSurface = m_surface;
+
+    // As soon as a graphics context initialization requests the raw surface
+    // handle, we flag it so the configuration callback knows explicit sync
+    // rules apply.
+    if (m_surface) {
+        gGraphicsTaintedSurfaces.insert(m_surface);
+    }
     return handle;
 }
 
@@ -214,7 +248,9 @@ void WaylandWindow::setMinSize(uint32_t width, uint32_t height) {
     if (m_xdgToplevel) {
         xdg_toplevel_set_min_size(m_xdgToplevel, static_cast<int32_t>(width),
                                   static_cast<int32_t>(height));
-        wl_surface_commit(m_surface);
+        if (!m_hasGraphicsContext) {
+            wl_surface_commit(m_surface);
+        }
     }
 }
 
@@ -222,13 +258,19 @@ void WaylandWindow::setMaxSize(uint32_t width, uint32_t height) {
     if (m_xdgToplevel) {
         xdg_toplevel_set_max_size(m_xdgToplevel, static_cast<int32_t>(width),
                                   static_cast<int32_t>(height));
-        wl_surface_commit(m_surface);
+        if (!m_hasGraphicsContext) {
+            wl_surface_commit(m_surface);
+        }
     }
 }
 
 VeraWindowState WaylandWindow::getState() const { return m_state; }
 
-void WaylandWindow::show() { wl_surface_commit(m_surface); }
+void WaylandWindow::show() {
+    if (!m_hasGraphicsContext) {
+        wl_surface_commit(m_surface);
+    }
+}
 
 void WaylandWindow::hide() { destroySurface(); }
 
@@ -276,7 +318,10 @@ void WaylandWindow::setFullscreen(FullScreenMode mode) {
     } else {
         xdg_toplevel_unset_fullscreen(m_xdgToplevel);
     }
-    wl_surface_commit(m_surface);
+
+    if (!m_hasGraphicsContext) {
+        wl_surface_commit(m_surface);
+    }
 }
 
 void WaylandWindow::setAlwaysOnTop(bool value) { (void)value; }
