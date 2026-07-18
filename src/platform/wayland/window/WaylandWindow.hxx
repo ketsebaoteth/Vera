@@ -61,6 +61,7 @@ class WaylandWindow : public VeraWindow {
     void setJoystickButtonCallback(
         VeraJoystickButtonCallback callback) override;
     void setJoystickAxisCallback(VeraJoystickAxisCallback callback) override;
+    void setDestructionCallback(std::function<void(VeraWindow*)> callback) override{};
 
     const auto& getKeyCallback() const { return m_keyCallback; }
     const auto& getCharCallback() const { return m_charCallback; }

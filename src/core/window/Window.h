@@ -69,4 +69,6 @@ class VeraWindow {
     virtual void setJoystickButtonCallback(
         VeraJoystickButtonCallback callback) = 0;
     virtual void setJoystickAxisCallback(VeraJoystickAxisCallback callback) = 0;
+
+    virtual void setDestructionCallback(std::function<void(VeraWindow*)> callback) = 0;
 };
