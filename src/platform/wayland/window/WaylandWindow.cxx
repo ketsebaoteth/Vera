@@ -3,7 +3,9 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <wayland-client-protocol.h>
 
+#include <cstdint>
 #include <cstring>
 
 #include "platform/wayland/cursor/WaylandCursor.hxx"
@@ -118,6 +120,10 @@ void WaylandWindow::initSurface(const VeraWindowInfo& info) {
 
     m_surface = wl_compositor_create_surface(m_ctx.compositor);
     if (!m_surface) return;
+
+    auto monitorInfo = getPrimaryMonitorWayland(m_ctx);
+    int32_t scale = monitorInfo.dpiScale;
+    wl_surface_set_buffer_scale(m_surface, scale);
 
     m_ctx.windowsBySurface[m_surface] = this;
 
