@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/platform/IPlatformBackend.h"
+#include "core/app/IBackend.h"
 
-class Win32Backend : public IPlatformBackend {
+class Win32Backend : public IBackend {
    public:
     Win32Backend() = default;
     ~Win32Backend() override = default;
