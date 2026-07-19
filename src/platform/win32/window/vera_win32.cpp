@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "core/app/Types.h"
 #include "platform/win32/utils/keyTranslationMap.h"
 #include "platform/win32/utils/win32_utils.h"
 #include "platform/win32/utils/windowCreationUtils.h"
@@ -501,4 +502,10 @@ VeraMonitorInfo VeraWin32Window::getCurrentMonitor() const {
     }
 
     return info;
+}
+
+bool VeraWin32Window::isPressed(VeraPressable button) {
+    // TODO:
+    (void)button;
+    return false;
 }

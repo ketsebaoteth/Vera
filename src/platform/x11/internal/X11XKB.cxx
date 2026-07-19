@@ -22,85 +22,115 @@ void initializeXKBX11(X11Context& ctx) {
 
 static VeraKey mapKeysym(KeySym ks) {
     switch (ks) {
+        // Lowercase Letters
         case XK_a:
-        case XK_A:
-            return VeraKey::A;
+            return VeraKey::ALower;
         case XK_b:
-        case XK_B:
-            return VeraKey::B;
+            return VeraKey::BLower;
         case XK_c:
-        case XK_C:
-            return VeraKey::C;
+            return VeraKey::CLower;
         case XK_d:
-        case XK_D:
-            return VeraKey::D;
+            return VeraKey::DLower;
         case XK_e:
-        case XK_E:
-            return VeraKey::E;
+            return VeraKey::ELower;
         case XK_f:
-        case XK_F:
-            return VeraKey::F;
+            return VeraKey::FLower;
         case XK_g:
-        case XK_G:
-            return VeraKey::G;
+            return VeraKey::GLower;
         case XK_h:
-        case XK_H:
-            return VeraKey::H;
+            return VeraKey::HLower;
         case XK_i:
-        case XK_I:
-            return VeraKey::I;
+            return VeraKey::ILower;
         case XK_j:
-        case XK_J:
-            return VeraKey::J;
+            return VeraKey::JLower;
         case XK_k:
-        case XK_K:
-            return VeraKey::K;
+            return VeraKey::KLower;
         case XK_l:
-        case XK_L:
-            return VeraKey::L;
+            return VeraKey::LLower;
         case XK_m:
-        case XK_M:
-            return VeraKey::M;
+            return VeraKey::MLower;
         case XK_n:
-        case XK_N:
-            return VeraKey::N;
+            return VeraKey::NLower;
         case XK_o:
-        case XK_O:
-            return VeraKey::O;
+            return VeraKey::OLower;
         case XK_p:
-        case XK_P:
-            return VeraKey::P;
+            return VeraKey::PLower;
         case XK_q:
-        case XK_Q:
-            return VeraKey::Q;
+            return VeraKey::QLower;
         case XK_r:
-        case XK_R:
-            return VeraKey::R;
+            return VeraKey::RLower;
         case XK_s:
-        case XK_S:
-            return VeraKey::S;
+            return VeraKey::SLower;
         case XK_t:
-        case XK_T:
-            return VeraKey::T;
+            return VeraKey::TLower;
         case XK_u:
-        case XK_U:
-            return VeraKey::U;
+            return VeraKey::ULower;
         case XK_v:
-        case XK_V:
-            return VeraKey::V;
+            return VeraKey::VLower;
         case XK_w:
-        case XK_W:
-            return VeraKey::W;
+            return VeraKey::WLower;
         case XK_x:
-        case XK_X:
-            return VeraKey::X;
+            return VeraKey::XLower;
         case XK_y:
-        case XK_Y:
-            return VeraKey::Y;
+            return VeraKey::YLower;
         case XK_z:
-        case XK_Z:
-            return VeraKey::Z;
+            return VeraKey::ZLower;
 
+        // Uppercase Letters
+        case XK_A:
+            return VeraKey::AUpper;
+        case XK_B:
+            return VeraKey::BUpper;
+        case XK_C:
+            return VeraKey::CUpper;
+        case XK_D:
+            return VeraKey::DUpper;
+        case XK_E:
+            return VeraKey::EUpper;
+        case XK_F:
+            return VeraKey::FUpper;
+        case XK_G:
+            return VeraKey::GUpper;
+        case XK_H:
+            return VeraKey::HUpper;
+        case XK_I:
+            return VeraKey::IUpper;
+        case XK_J:
+            return VeraKey::JUpper;
+        case XK_K:
+            return VeraKey::KUpper;
+        case XK_L:
+            return VeraKey::LUpper;
+        case XK_M:
+            return VeraKey::MUpper;
+        case XK_N:
+            return VeraKey::NUpper;
+        case XK_O:
+            return VeraKey::OUpper;
+        case XK_P:
+            return VeraKey::PUpper;
+        case XK_Q:
+            return VeraKey::QUpper;
+        case XK_R:
+            return VeraKey::RUpper;
+        case XK_S:
+            return VeraKey::SUpper;
+        case XK_T:
+            return VeraKey::TUpper;
+        case XK_U:
+            return VeraKey::UUpper;
+        case XK_V:
+            return VeraKey::VUpper;
+        case XK_W:
+            return VeraKey::WUpper;
+        case XK_X:
+            return VeraKey::XUpper;
+        case XK_Y:
+            return VeraKey::YUpper;
+        case XK_Z:
+            return VeraKey::ZUpper;
+
+        // Base Numbers
         case XK_0:
             return VeraKey::Num0;
         case XK_1:
@@ -122,6 +152,139 @@ static VeraKey mapKeysym(KeySym ks) {
         case XK_9:
             return VeraKey::Num9;
 
+        // Shifted Symbols
+        case XK_exclam:
+            return VeraKey::Exclamation;
+        case XK_at:
+            return VeraKey::At;
+        case XK_numbersign:
+            return VeraKey::Hash;
+        case XK_dollar:
+            return VeraKey::Dollar;
+        case XK_percent:
+            return VeraKey::Percent;
+        case XK_asciicircum:
+            return VeraKey::Caret;
+        case XK_ampersand:
+            return VeraKey::Ampersand;
+        case XK_asterisk:
+            return VeraKey::Asterisk;
+        case XK_parenleft:
+            return VeraKey::LeftParen;
+        case XK_parenright:
+            return VeraKey::RightParen;
+        case XK_underscore:
+            return VeraKey::Underscore;
+        case XK_plus:
+            return VeraKey::Plus;
+        case XK_colon:
+            return VeraKey::Colon;
+        case XK_quotedbl:
+            return VeraKey::Quote;
+        case XK_less:
+            return VeraKey::LessThan;
+        case XK_greater:
+            return VeraKey::GreaterThan;
+        case XK_question:
+            return VeraKey::Question;
+        case XK_braceleft:
+            return VeraKey::LeftBrace;
+        case XK_braceright:
+            return VeraKey::RightBrace;
+        case XK_bar:
+            return VeraKey::Pipe;
+        case XK_asciitilde:
+            return VeraKey::Tilde;
+
+        // Base Symbols
+        case XK_space:
+            return VeraKey::Space;
+        case XK_apostrophe:
+            return VeraKey::Apostrophe;
+        case XK_comma:
+            return VeraKey::Comma;
+        case XK_minus:
+            return VeraKey::Minus;
+        case XK_period:
+            return VeraKey::Period;
+        case XK_slash:
+            return VeraKey::Slash;
+        case XK_semicolon:
+            return VeraKey::Semicolon;
+        case XK_equal:
+            return VeraKey::Equal;
+        case XK_bracketleft:
+            return VeraKey::LeftBracket;
+        case XK_backslash:
+            return VeraKey::Backslash;
+        case XK_bracketright:
+            return VeraKey::RightBracket;
+        case XK_grave:
+            return VeraKey::GraveAccent;
+
+        // Control / Navigation
+        case XK_Return:
+            return VeraKey::Enter;
+        case XK_Escape:
+            return VeraKey::Escape;
+        case XK_Tab:
+            return VeraKey::Tab;
+        case XK_BackSpace:
+            return VeraKey::Backspace;
+        case XK_Insert:
+            return VeraKey::Insert;
+        case XK_Delete:
+            return VeraKey::Delete;
+        case XK_Home:
+            return VeraKey::Home;
+        case XK_End:
+            return VeraKey::End;
+        case XK_Page_Up:
+            return VeraKey::PageUp;
+        case XK_Page_Down:
+            return VeraKey::PageDown;
+        case XK_Left:
+            return VeraKey::Left;
+        case XK_Right:
+            return VeraKey::Right;
+        case XK_Up:
+            return VeraKey::Up;
+        case XK_Down:
+            return VeraKey::Down;
+
+        // Modifiers
+        case XK_Shift_L:
+            return VeraKey::LeftShift;
+        case XK_Shift_R:
+            return VeraKey::RightShift;
+        case XK_Control_L:
+            return VeraKey::LeftCtrl;
+        case XK_Control_R:
+            return VeraKey::RightCtrl;
+        case XK_Alt_L:
+            return VeraKey::LeftAlt;
+        case XK_Alt_R:
+            return VeraKey::RightAlt;
+        case XK_Super_L:
+            return VeraKey::LeftSuper;
+        case XK_Super_R:
+            return VeraKey::RightSuper;
+
+        // Locks / Systems
+        case XK_Caps_Lock:
+            return VeraKey::CapsLock;
+        case XK_Scroll_Lock:
+            return VeraKey::ScrollLock;
+        case XK_Num_Lock:
+            return VeraKey::NumLock;
+        case XK_Print:
+            return VeraKey::PrintScreen;
+        case XK_Pause:
+            return VeraKey::Pause;
+        case XK_Menu:
+            return VeraKey::Menu;
+
+        // Function Keys
         case XK_F1:
             return VeraKey::F1;
         case XK_F2:
@@ -146,116 +309,8 @@ static VeraKey mapKeysym(KeySym ks) {
             return VeraKey::F11;
         case XK_F12:
             return VeraKey::F12;
-        case XK_F13:
-            return VeraKey::F13;
-        case XK_F14:
-            return VeraKey::F14;
-        case XK_F15:
-            return VeraKey::F15;
-        case XK_F16:
-            return VeraKey::F16;
-        case XK_F17:
-            return VeraKey::F17;
-        case XK_F18:
-            return VeraKey::F18;
-        case XK_F19:
-            return VeraKey::F19;
-        case XK_F20:
-            return VeraKey::F20;
-        case XK_F21:
-            return VeraKey::F21;
-        case XK_F22:
-            return VeraKey::F22;
-        case XK_F23:
-            return VeraKey::F23;
-        case XK_F24:
-            return VeraKey::F24;
 
-        case XK_space:
-            return VeraKey::Space;
-        case XK_Return:
-            return VeraKey::Enter;
-        case XK_Escape:
-            return VeraKey::Escape;
-        case XK_Tab:
-            return VeraKey::Tab;
-        case XK_BackSpace:
-            return VeraKey::Backspace;
-        case XK_Insert:
-            return VeraKey::Insert;
-        case XK_Delete:
-            return VeraKey::Delete;
-        case XK_Home:
-            return VeraKey::Home;
-        case XK_End:
-            return VeraKey::End;
-        case XK_Page_Up:
-            return VeraKey::PageUp;
-        case XK_Page_Down:
-            return VeraKey::PageDown;
-
-        case XK_Left:
-            return VeraKey::Left;
-        case XK_Right:
-            return VeraKey::Right;
-        case XK_Up:
-            return VeraKey::Up;
-        case XK_Down:
-            return VeraKey::Down;
-
-        case XK_Shift_L:
-            return VeraKey::LeftShift;
-        case XK_Shift_R:
-            return VeraKey::RightShift;
-        case XK_Control_L:
-            return VeraKey::LeftCtrl;
-        case XK_Control_R:
-            return VeraKey::RightCtrl;
-        case XK_Alt_L:
-            return VeraKey::LeftAlt;
-        case XK_Alt_R:
-            return VeraKey::RightAlt;
-        case XK_Super_L:
-            return VeraKey::LeftSuper;
-        case XK_Super_R:
-            return VeraKey::RightSuper;
-
-        case XK_Caps_Lock:
-            return VeraKey::CapsLock;
-        case XK_Scroll_Lock:
-            return VeraKey::ScrollLock;
-        case XK_Num_Lock:
-            return VeraKey::NumLock;
-        case XK_Print:
-            return VeraKey::PrintScreen;
-        case XK_Pause:
-            return VeraKey::Pause;
-        case XK_Menu:
-            return VeraKey::Menu;
-
-        case XK_apostrophe:
-            return VeraKey::Apostrophe;
-        case XK_comma:
-            return VeraKey::Comma;
-        case XK_minus:
-            return VeraKey::Minus;
-        case XK_period:
-            return VeraKey::Period;
-        case XK_slash:
-            return VeraKey::Slash;
-        case XK_semicolon:
-            return VeraKey::Semicolon;
-        case XK_equal:
-            return VeraKey::Equal;
-        case XK_bracketleft:
-            return VeraKey::LeftBracket;
-        case XK_backslash:
-            return VeraKey::Backslash;
-        case XK_bracketright:
-            return VeraKey::RightBracket;
-        case XK_grave:
-            return VeraKey::GraveAccent;
-
+        // Keypad
         case XK_KP_0:
             return VeraKey::KP0;
         case XK_KP_1:
@@ -291,6 +346,7 @@ static VeraKey mapKeysym(KeySym ks) {
         case XK_KP_Equal:
             return VeraKey::KPEqual;
 
+        // Media
         case XF86XK_AudioMute:
             return VeraKey::Mute;
         case XF86XK_AudioRaiseVolume:
@@ -303,8 +359,24 @@ static VeraKey mapKeysym(KeySym ks) {
     }
 }
 
-VeraKey convertKeycodeToVeraKeyX11(X11Context& ctx, unsigned int keycode) {
-    KeySym ks = XkbKeycodeToKeysym(ctx.display, keycode, 0, 0);
+VeraKey convertKeyEventToVeraKeyX11(X11Context& ctx, XKeyEvent& event) {
+    KeySym ks = NoSymbol;
+
+    // We use column index matching based on Shift / CapsLock status
+    int col = 0;
+    if (event.state & (ShiftMask | LockMask)) {
+        col = 1;
+    }
+
+    // Try to get the active layout keysym with context modifiers
+    ks = XkbKeycodeToKeysym(ctx.display, event.keycode, 0, col);
+
+    // Fallback logic if column 1 yields null (like on Function keys or Control
+    // maps)
+    if (ks == NoSymbol) {
+        ks = XkbKeycodeToKeysym(ctx.display, event.keycode, 0, 0);
+    }
+
     return mapKeysym(ks);
 }
 

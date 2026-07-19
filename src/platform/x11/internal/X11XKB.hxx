@@ -5,6 +5,6 @@
 
 void initializeXKBX11(X11Context& ctx);
 
-VeraKey convertKeycodeToVeraKeyX11(X11Context& ctx, unsigned int keycode);
+VeraKey convertKeyEventToVeraKeyX11(X11Context& ctx, XKeyEvent& event);
 
 uint32_t convertKeyEventToCodepointX11(X11Context& ctx, XKeyEvent& event);

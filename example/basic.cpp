@@ -85,8 +85,9 @@ int main() {
                 static_cast<VeraWindowHandle>(windowHandle));
 
             if (win) {
-                bool isKPressed =
-                    (key == VeraKey::K) ? pressed : win->isPressed(VeraKey::K);
+                bool isKPressed = (key == VeraKey::KLower)
+                                      ? pressed
+                                      : win->isPressed(VeraKey::KLower);
 
                 if (isKPressed) {
                     std::cout << " | K Pressed";

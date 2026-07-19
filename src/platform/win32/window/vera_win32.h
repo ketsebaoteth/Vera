@@ -72,6 +72,7 @@ class VeraWin32Window : public VeraWindow {
         std::function<void(VeraWindow*)> callback) override {
         m_destruction_callback = std::move(callback);
     }
+    bool isPressed(VeraPressable) const override;
 
     VeraJoystickButtonCallback m_joystick_button_callback{nullptr};
     VeraJoystickAxisCallback m_joystick_axis_callback{nullptr};
